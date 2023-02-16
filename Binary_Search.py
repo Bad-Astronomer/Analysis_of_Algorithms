@@ -48,7 +48,7 @@ def iterativeBinarySearch(arr, key, low, high):
 num = 10
 arr = []
 
-sizes = [1000*i for i in range(1,50)]
+sizes = [1000*i for i in range(1,300)]
 
 for size in tqdm(sizes):
     counter = 0
@@ -57,16 +57,18 @@ for size in tqdm(sizes):
         arr.append(num)
 
     #ground_truth = random.randint(1, size)
-    ground_truth = 1
+    ground_truth = 0
     key = arr[ground_truth]                                                                                                                                                                                                                                                                                            
     ind = binarySearch(arr, key, 0, size)
     counter_arr.append(counter)
 
 
-sizes = [10*i for i in sizes]
 #counter_arr.append(0)
 growth = np.log(sizes)
+growth /= growth[-1]
+growth *= counter_arr[-1]
 growth += counter_arr[0] - growth[0]
+#growth *= (counter_arr[-1] - growth[-1])/counter_arr[-1]
 
 print(growth)
 print(counter_arr)
@@ -76,4 +78,3 @@ plt.plot(growth, linestyle = "dashed")
 plt.xlabel("No. of Samples")
 plt.ylabel("No. of comparisons")
 plt.show()
-
