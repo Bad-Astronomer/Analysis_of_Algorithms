@@ -1,10 +1,13 @@
-from time import time
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 from math import log2
 
 
+global counter
+counter_arr = []
+
 def mergeSort(arr, s, e):
+    global counter 
     if s > e: 
         print("Invalid")
         return
@@ -18,6 +21,7 @@ def mergeSort(arr, s, e):
         i, j, arr3 = 0, 0, []
 
         while(i < len(arr1) and j < len(arr2)):
+            counter += 1
             if(arr1[i] < arr2[j]):
                 arr3.append(arr1[i])
                 i += 1
@@ -33,26 +37,27 @@ def mergeSort(arr, s, e):
     
     elif not e-s-1:
         if arr[e] < arr[s]:
+            counter += 1
             arr[e], arr[s] = arr[s], arr[e]
 
     return arr[s:e+1]
 
 
-sizes = [1000*i for i in range(1,300)]
-timer_arr = []
+sizes = [10*i for i in range(1,500)]
 
 for size in tqdm(sizes):
+    counter = 0
     arr = [size-i for i in range(size)]
-    tic = time()
     arr = mergeSort(arr, 0, len(arr)-1)
-    toc = time()
-    timer_arr.append(toc - tic)
+    counter_arr.append(counter)
 
-# print(timer_arr)
-growth = [(timer_arr[-1]*i*log2(i))/(len(sizes)*log2(len(sizes))) for i in range(1, len(sizes))]
-linear_growth = [(timer_arr[-1]*i)/len(sizes) for i in range(len(sizes))]
 
-plt.plot(timer_arr)
+growth = [(counter_arr[-1]*i*log2(i))/(len(sizes)*log2(len(sizes))) for i in range(1, len(sizes)+1)]
+plt.plot(counter_arr)
 plt.plot(growth, linestyle = "dashed")
-plt.plot(linear_growth, linestyle = "dashed")
+plt.xlabel("No. of samples")
+plt.ylabel("No. of comparisons")
 plt.show()
+
+for i, n in enumerate(sizes):
+    print(f"{n}\t {counter_arr[i]}\t{growth[i]}")
