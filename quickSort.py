@@ -38,6 +38,8 @@ timer_arr = []
 
 for size in tqdm(sizes):
     
+    # avg case
+
     # i, arr = 0, []
     # while(i < size): 
     #     rand = random.randint(1, size)
@@ -50,6 +52,8 @@ for size in tqdm(sizes):
     #     print("STOP")
     #     break
 
+
+    # worst case
     arr = [size-i for i in range(size)]
     
     time1 = time.perf_counter()
