@@ -34,23 +34,27 @@ def quickSort(arr, pivot, e):
 
 
 sizes = [10*i for i in range(1,100 +1)]
-timer_arr = []
+timer_arr, timer_arr2 = [], []
 
 for size in tqdm(sizes):
     
     # avg case
-
-    # i, arr = 0, []
-    # while(i < size): 
-    #     rand = random.randint(1, size)
-    #     if rand in arr:
-    #         continue
-    #     i += 1
-    #     arr.append(rand)
+    i, arr = 0, []
+    while(i < size): 
+        rand = random.randint(1, size)
+        if rand in arr:
+            continue
+        i += 1
+        arr.append(rand)
     
     # if(sorted(arr) != quickSort(arr, 0, len(arr)-1)):
     #     print("STOP")
     #     break
+
+    time1 = time.perf_counter()
+    arr = quickSort(arr, 0, len(arr)-1)
+    time2 = time.perf_counter()
+    timer_arr.append((time2 - time1)*1000)
 
 
     # worst case
@@ -59,16 +63,21 @@ for size in tqdm(sizes):
     time1 = time.perf_counter()
     arr = quickSort(arr, 0, len(arr)-1)
     time2 = time.perf_counter()
-    timer_arr.append((time2 - time1)*1000)
+    timer_arr2.append((time2 - time1)*1000)
 
 
 avg_growth = [(size*log2(size)) for size in sizes]
 avg_growth = [(growth_element/ avg_growth[-1])*timer_arr[-1] for growth_element in avg_growth]
 
-worst_growth = [(size**2) for size in sizes]
-worst_growth = [(worst_growth_element/ worst_growth[-1])*timer_arr[-1] for worst_growth_element in worst_growth]
 
 plt.plot(timer_arr)
 plt.plot(avg_growth, linestyle = "dashed")
+plt.show()
+
+worst_growth = [(size**2) for size in sizes]
+worst_growth = [(worst_growth_element/ worst_growth[-1])*timer_arr2[-1] for worst_growth_element in worst_growth]
+
+
+plt.plot(timer_arr2)
 plt.plot(worst_growth, linestyle = "dashed")
 plt.show()
